@@ -1,3 +1,4 @@
+from decimal import Decimal
 import pandas as pd
 from storage import csv_file
 
@@ -5,10 +6,23 @@ from storage import csv_file
 def carregar_dados():
     """Carrega os dados do CSV para um DataFrame do pandas"""
     df = pd.read_csv(csv_file, parse_dates=["Data"]) # Carrega o CSV normalmente
-    df["Valor"] = pd.to_numeric(df["Valor"], errors="coerce") # Converte valores para float, ignorando inválidos
+    df["Valor"] = df["Valor"].apply(lambda x: Decimal(x))
     df["Data"] = pd.to_datetime(df["Data"], format="%d/%m/%Y") # Converte a coluna Data para datetime
     df.dropna(subset=["Valor"], inplace=True) # Remove linhas onde a conversão falhou
     return df
+
+def relatorio_por_categoria(df):
+    if df.empty:
+        print("\n🚨 Nenhuma despesa registrada ainda!\n")
+        return
+    
+    gastos_por_categoria = df.groupby("Categoria")["Valor"].sum()
+
+    print("\n📊 Relatório de despesas por categoria:\n")
+    for categoria, valor in gastos_por_categoria.items():
+        print(f"🛒 {categoria}: R$ {valor:.2f}")
+
+    print("\n")
 
 def total_despesas(df):
     return df["Valor"].sum()

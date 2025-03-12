@@ -6,6 +6,7 @@ from analytics import (
     carregar_dados
 )
 from colorama import Fore, Style
+from analytics import relatorio_por_categoria
 
 def imprimir_menu():
     """Exibe o menu formatado."""
@@ -16,6 +17,7 @@ def imprimir_menu():
     print("2 - Mostrar maior despesa")
     print("3 - Mostrar menor despesa")
     print("4 - Mostrar média mensal")
+    print("5 - Relatório por categoria")
     print("0 - Sair" + Style.RESET_ALL)
     print("-" * 40)
 
@@ -37,6 +39,8 @@ def executar_menu(df):
             elif opcao == 4:
                 print(Fore.MAGENTA + "\n📊 Média de gastos mensais:" + Style.RESET_ALL)
                 print(media_mensal(df))
+            elif opcao == 5:
+                relatorio_por_categoria(df)
             elif opcao == 0:
                 print(Fore.CYAN + "Saindo do programa... Até mais! 👋" + Style.RESET_ALL)
                 break

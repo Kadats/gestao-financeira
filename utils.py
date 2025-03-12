@@ -15,4 +15,4 @@ def criar_cabecalho(csv_file):
     if not verificar_cabecalho(csv_file): # Só cria o cabeçalho se ele não existir
         with open(csv_file, "w", newline="", encoding="utf-8") as arquivo:
             escritor = csv.writer(arquivo)
-            escritor.writerow(["Descrição", "Valor", "Data"]) # Cabeçalho do CSV
+            escritor.writerow(["Descrição", "Categoria", "Valor", "Data"]) # Cabeçalho do CSV
