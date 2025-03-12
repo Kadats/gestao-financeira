@@ -1,8 +1,9 @@
-from utils import csv_file, criar_cabecalho
+from storage import csv_file
 from analytics import carregar_dados
 from menu import executar_menu
+from utils import criar_cabecalho
 
-criar_cabecalho(csv_file) # Garante que o cabeçalho seja criado
+criar_cabecalho(csv_file)
 
 df = carregar_dados() # Carrega os dados antes de iniciar o menu
 

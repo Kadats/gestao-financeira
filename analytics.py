@@ -1,5 +1,6 @@
 import pandas as pd
-from utils import csv_file
+from storage import csv_file
+
 
 def carregar_dados():
     """Carrega os dados do CSV para um DataFrame do pandas"""
