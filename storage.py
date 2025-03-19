@@ -1,4 +1,5 @@
 import csv
+import datetime
 from decimal import Decimal
 import os
 
@@ -25,12 +26,17 @@ def validar_data(data):
         print("Formato de data inválido. Use DD/MM/AAAA.")
         return None # Retorna None para indicar erro
 
-
 def adicionar_despesas(csv_file, descricao, categoria, valor, data):
     with open(csv_file, "a", newline="", encoding="utf-8") as arquivo:
         escritor = csv.writer(arquivo)
         escritor.writerow([descricao, categoria, valor, data])  # Adiciona uma nova despesa
-    
+
+def listar_despesas(csv_file):
+    with open(csv_file, "r", newline="", encoding="utf-8") as arquivo:
+        for despesa in arquivo:
+            print(despesa)
+
+def form_despesa(csv_file):
     controle = True
     while controle:
         descricao = input("Descrição da despesa: ")
@@ -48,8 +54,3 @@ def adicionar_despesas(csv_file, descricao, categoria, valor, data):
         controle = input("Deseja adicionar outra despesa? (s/n) ").lower() == "s"
 
     print("\nDespesas registradas com sucesso!")
-
-def listar_despesas(csv_file):
-    with open(csv_file, "r", newline="", encoding="utf-8") as arquivo:
-        for despesa in arquivo:
-            print(despesa)
