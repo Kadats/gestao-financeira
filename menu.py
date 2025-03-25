@@ -1,13 +1,11 @@
 from analytics import (
     total_despesas,
-    maior_despesa,
-    menor_despesa,
     media_mensal,
     carregar_dados
 )
 from colorama import Fore, Style
-from analytics import relatorio_por_categoria
-from storage import csv_file, listar_despesas, form_despesa
+from storage import csv_file, listar_despesas
+from utils import adicionar_despesa
 
 def imprimir_menu():
     """Exibe o menu formatado."""
@@ -32,19 +30,19 @@ def executar_menu(df):
             df = carregar_dados()  # Carrega os dados atualizados
 
             if opcao == 1:
-                form_despesa(csv_file)
-                print(Fore.GREEN + f"\n✅ Despesa adicionada com sucesso!" + Style.RESET_ALL)
+                adicionar_despesa(csv_file)
+                print(Fore.GREEN + f"\n✅[SUCESSO]: Despesa adicionada com sucesso!" + Style.RESET_ALL)
             elif opcao == 2:
-                print(Fore.RED + f"\n📋 Aqui estão suas despesas registradas:" + Style.RESET_ALL)
+                print(Fore.RED + f"\n📋[INFO]: Aqui estão suas despesas registradas:" + Style.RESET_ALL)
                 listar_despesas(csv_file)
             elif opcao == 3:
-                print(f"\nSuas despesas somam: R$ {total_despesas(df):.2f}")
-                print(f"\nA média de gastos nos últimos 30 dias foram de: R$ {media_mensal(df)}")
+                print(f"\ninfo: Suas despesas somam: R$ {total_despesas(df):.2f}")
+                print(f"\ninfo: A média de gastos nos últimos 30 dias foram de: R$ {media_mensal(df)}")
                 print(Fore.BLUE + f"\n📊 Análise concluída." + Style.RESET_ALL)
             elif opcao == 0:
                 print(Fore.CYAN + "Obrigado por utilizar nosso sistema! Até mais. 👋" + Style.RESET_ALL)
                 break
             else:
-                print(Fore.RED + "Opção inválida! Escolha um número entre 0 e 3." + Style.RESET_ALL)
+                print(Fore.RED + "erro: Opção inválida! Escolha um número entre 0 e 3." + Style.RESET_ALL)
         else:
-            print(Fore.RED + "Entrada inválida! Digite um número." + Style.RESET_ALL)
+            print(Fore.RED + "erro: Entrada inválida! Digite um número." + Style.RESET_ALL)

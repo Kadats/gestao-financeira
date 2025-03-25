@@ -1,6 +1,4 @@
 import csv
-import datetime
-from decimal import Decimal
 import os
 
 
@@ -11,46 +9,25 @@ if not os.path.exists(ROOT):
 
 csv_file = os.path.join(ROOT, "despesas.csv") # Caminho completo do CSV
 
-def formatar_data(data):
-    # Formata a entrada para DD/MM/AAAA se o usuário digitar apenas números
-    if len(data) == 8 and data.isdigit(): # Verifica se são exatamente 8 dígitos
-        return f"{data[:2]}/{data[2:4]}/{data[4:]}" # Adiciona as barras autamaticamente
-    return data # Se não for 8 números, retorna como está
-
-def validar_data(data):
+# Carrega o arquivo CSV
+def carregar_arquivo(csv_file):
     try:
-        # Tenta converter a entrada para o formato padrão (usuário digita DD/MM/AAAA)
-        data_formatada = datetime.strptime(data, "%d/%m/%Y").strftime("%Y-%m-%d")
-        return data_formatada # Retorna a data formatada como YYYY-MM-DD
-    except ValueError:
-        print("Formato de data inválido. Use DD/MM/AAAA.")
-        return None # Retorna None para indicar erro
+        with open(csv_file, "r", newline="", encoding="utf-8") as arquivo:
+            return csv.reader(arquivo)
+    except FileNotFoundError:
+        print(f"Erro: O arquivo {csv_file} não foi encontrado.")
+        return []
+    except PermissionError:
+        print(f"Erro: Sem permissão para acessar o arquivo {csv_file}.")
+        return []
 
-def adicionar_despesas(csv_file, descricao, categoria, valor, data):
+# Adiciona uma nova despesa ao arquivo CSV
+def salvar_despesa(csv_file, descricao, categoria, valor, data_formatada):
     with open(csv_file, "a", newline="", encoding="utf-8") as arquivo:
         escritor = csv.writer(arquivo)
-        escritor.writerow([descricao, categoria, valor, data])  # Adiciona uma nova despesa
+        escritor.writerow([descricao, categoria, valor, data_formatada])
 
 def listar_despesas(csv_file):
     with open(csv_file, "r", newline="", encoding="utf-8") as arquivo:
         for despesa in arquivo:
             print(despesa)
-
-def form_despesa(csv_file):
-    controle = True
-    while controle:
-        descricao = input("Descrição da despesa: ")
-        categoria = input("Categoria: ")
-        valor = Decimal(input("Valor: "))
-        while True:
-            data = input("Data (DD/MM/AAAA): ")
-            data = formatar_data(data)
-            data_formatada = validar_data(data)
-            if data_formatada:
-                break
-
-        adicionar_despesas(csv_file, descricao, valor, data)
-
-        controle = input("Deseja adicionar outra despesa? (s/n) ").lower() == "s"
-
-    print("\nDespesas registradas com sucesso!")

@@ -24,6 +24,14 @@ def relatorio_por_categoria(df):
 
     print("\n")
 
+# Calcula a média dos valores e previne divisão por zero
+def calcular_media(df):
+    try:
+        return df["Valor"].mean()
+    except ZeroDivisionError:
+        print("Erro: Não é possível calcular a média de uma lista vazia.")
+        return None
+
 def total_despesas(df):
     return df["Valor"].sum()
 
