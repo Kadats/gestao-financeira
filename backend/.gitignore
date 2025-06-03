@@ -1,0 +1,19 @@
+# Ambientes virtuais
+venv/
+.venv/
+
+# Arquivos de banco
+*.sqlite3
+*.db
+
+# Configs locais e caches
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# VSCode
+.vscode/
+
+# Arquivos de teste temporário
+tests/conftest_backup.py
